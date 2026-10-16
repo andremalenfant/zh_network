@@ -184,7 +184,7 @@ esp_err_t zh_network_send(const uint8_t *target, const uint8_t *data, const uint
     _queue_t queue = {0};
     queue.id = TO_SEND;
     queue.data.network_id = _init_config.network_id;
-    queue.data.message_id = abs(esp_random()); // It is not clear why esp_random() sometimes gives negative values.
+    queue.data.message_id = esp_random();
     memcpy(queue.data.original_sender_mac, _self_mac, 6);
     if (target == NULL)
     {
@@ -375,7 +375,7 @@ static void _processing(void *pvParameter)
                     memcpy(queue.data.original_sender_mac, _self_mac, 6);
                     queue.data.payload_len = 0;
                     memset(queue.data.payload, 0, ZH_NETWORK_MAX_MESSAGE_SIZE);
-                    queue.data.message_id = abs(esp_random()); // It is not clear why esp_random() sometimes gives negative values.
+                    queue.data.message_id = esp_random();
                     ESP_LOGI(TAG, "Outgoing ESP-NOW data from MAC %02X:%02X:%02X:%02X:%02X:%02X to MAC %02X:%02X:%02X:%02X:%02X:%02X processed success.", MAC2STR(queue.data.original_sender_mac), MAC2STR(queue.data.original_target_mac));
                     if (xQueueSendToFront(_queue_handle, &queue, portTICK_PERIOD_MS) != pdTRUE)
                     {
@@ -521,7 +521,7 @@ static void _processing(void *pvParameter)
                     memcpy(queue.data.original_sender_mac, _self_mac, 6);
                     queue.data.payload_len = 0;
                     memset(queue.data.payload, 0, ZH_NETWORK_MAX_MESSAGE_SIZE);
-                    queue.data.message_id = abs(esp_random()); // It is not clear why esp_random() sometimes gives negative values.
+                    queue.data.message_id = esp_random();
                     ESP_LOGI(TAG, "Outgoing ESP-NOW data from MAC %02X:%02X:%02X:%02X:%02X:%02X to MAC %02X:%02X:%02X:%02X:%02X:%02X processed success.", MAC2STR(queue.data.original_sender_mac), MAC2STR(queue.data.original_target_mac));
                     if (xQueueSendToFront(_queue_handle, &queue, portTICK_PERIOD_MS) != pdTRUE)
                     {
@@ -609,7 +609,7 @@ static void _processing(void *pvParameter)
                     queue.data.payload_len = 0;
                     memset(queue.data.payload, 0, ZH_NETWORK_MAX_MESSAGE_SIZE);
                     queue.data.confirm_id = queue.data.message_id;
-                    queue.data.message_id = abs(esp_random()); // It is not clear why esp_random() sometimes gives negative values.
+                    queue.data.message_id = esp_random();
                     if (xQueueSendToFront(_queue_handle, &queue, portTICK_PERIOD_MS) != pdTRUE)
                     {
                         ESP_LOGE(TAG, "ESP-NOW message processing task internal error at line %d.", __LINE__);
@@ -673,7 +673,7 @@ static void _processing(void *pvParameter)
                     memcpy(queue.data.original_sender_mac, _self_mac, 6);
                     queue.data.payload_len = 0;
                     memset(queue.data.payload, 0, ZH_NETWORK_MAX_MESSAGE_SIZE);
-                    queue.data.message_id = abs(esp_random()); // It is not clear why esp_random() sometimes gives negative values.
+                    queue.data.message_id = esp_random();
                     ESP_LOGI(TAG, "Incoming ESP-NOW data from MAC %02X:%02X:%02X:%02X:%02X:%02X to MAC %02X:%02X:%02X:%02X:%02X:%02X processed success.", MAC2STR(queue.data.original_sender_mac), MAC2STR(queue.data.original_target_mac));
                     if (xQueueSendToFront(_queue_handle, &queue, portTICK_PERIOD_MS) != pdTRUE)
                     {
